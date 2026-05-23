@@ -1,4 +1,4 @@
-Projeto final de Api Rest do grupo 1 
+Projeto final de Api Rest do Grupo 1 
 
 Integrantes:
 Douglas Mathias
