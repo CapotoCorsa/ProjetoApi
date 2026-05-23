@@ -1,13 +1,9 @@
-Projeto final de Api Rest do Grupo 1 
+# GRUPO 1
+Repositório referente à atividade 2 em grupo.
 
 Integrantes:
-
-Douglas Mathias
-
-Filipe Brollo
-
-Nikolas Ramos
-
-NIkolas 
-
-Mateus França
+* Douglas Barboza
+* Filipe Brollo
+* Matheus Costa
+* Nicolas Griittner
+* Nikolas Ramos
