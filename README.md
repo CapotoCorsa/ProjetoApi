@@ -1,5 +1,5 @@
 # GRUPO 1
-Repositório referente à atividade 2 em grupo.
+Repositório referente ao projeto final de Api Rest em grupo.
 
 Integrantes:
 * Douglas Barboza
