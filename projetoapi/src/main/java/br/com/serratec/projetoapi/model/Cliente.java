@@ -2,6 +2,7 @@ package br.com.serratec.projetoapi.model;
 
 import org.hibernate.validator.constraints.br.CPF;
 
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,6 +33,11 @@ public class Cliente {
     @Email(message = "Email inválido")
     @Size(max = 150, message = "Email muito grande")
     private String email;
+
+    private String cep;
+
+    @Embedded
+    private Endereco endereco;
 
     public Long getId() {
         return id;
@@ -71,6 +77,22 @@ public class Cliente {
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
+    }
+
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
+
+    public String getCep() {
+        return cep;
+    }
+
+    public void setCep(String cep) {
+        this.cep = cep;
     }
 
     
