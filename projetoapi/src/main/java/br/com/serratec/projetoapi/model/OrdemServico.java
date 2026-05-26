@@ -1,5 +1,7 @@
 package br.com.serratec.projetoapi.model;
 
+import java.util.List;
+
 import br.com.serratec.projetoapi.enums.StatusOrdem;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -9,6 +11,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -25,6 +28,9 @@ public class OrdemServico {
     @NotNull(message= "Preencha o status.")
     @Enumerated(EnumType.STRING)
     private StatusOrdem status;
+
+    @OneToMany(mappedBy= "ordemServico")
+    private List<ServicosOrdem> servicos;
     
     public Long getId() {
         return id;
@@ -48,6 +54,10 @@ public class OrdemServico {
 
     public void setStatus(StatusOrdem status) {
         this.status = status;
+    }
+
+    public List<ServicosOrdem> getServicos() {
+        return servicos;
     }
 
 }
