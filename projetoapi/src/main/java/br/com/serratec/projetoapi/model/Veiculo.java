@@ -19,7 +19,7 @@ public class Veiculo {
     private String cor;
 
     @ManyToOne
-    @JoinColumn(name = "cliente_id")
+    @JoinColumn(name = "id_cliente")
     private Cliente cliente;
 
     public Cliente getCliente() {

@@ -5,19 +5,19 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.serratec.projetoapi.model.Servico;
-import br.com.serratec.projetoapi.repository.ServicoRepository;
+import br.com.serratec.projetoapi.model.OrdemServico;
+import br.com.serratec.projetoapi.repository.OrdemServicoRepository;
 
 @Service
-public class ServicoService {
+public class OrdemServicoService {
     @Autowired
-    private ServicoRepository repository;
+    private OrdemServicoRepository repository;
 
-    public Servico inserir(Servico servico) {
+    public OrdemServico inserir(OrdemServico servico) {
         return repository.save(servico);
     }
 
-    public Servico atualizar(Long id, Servico servico) {
+    public OrdemServico atualizar(OrdemServico servico, Long id) {
         if(repository.existsById(id)) {
             servico.setId(id);
             return repository.save(servico);
@@ -30,7 +30,7 @@ public class ServicoService {
         return resultado;
     }
 
-    public List<Servico> listar() {
+    public List<OrdemServico> listar() {
         return repository.findAll();
     }
 }

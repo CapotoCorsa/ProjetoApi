@@ -4,8 +4,8 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 
 import br.com.serratec.projetoapi.exception.EnumException;
 
-public enum DescricaoServico {
-    TROCA_OLEO, ALINHAMENTO, BALANCEAMENTO, REVISAO, TROCA_FREIOS;
+public enum StatusOrdem {
+    ABERTA, EM_ANDAMENTO, FINALIZADA, CANCELADA;
 
     @JsonCreator
     public static DescricaoServico verificaEnum(String nome) {
@@ -13,6 +13,6 @@ public enum DescricaoServico {
             if(servico.name().equals(nome))
                 return servico;
         }
-        throw new EnumException("Descrição inválida.");
+        throw new EnumException("Status inválido.");
     }
 }
