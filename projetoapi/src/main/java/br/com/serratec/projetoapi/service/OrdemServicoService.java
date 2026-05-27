@@ -1,9 +1,8 @@
 package br.com.serratec.projetoapi.service;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.serratec.projetoapi.dto.OrdemServicoRequestDTO;
@@ -39,11 +38,11 @@ public class OrdemServicoService {
     public OrdemServicoResponseDTO editar(OrdemServicoRequestDTO dto, Long id) {
         Veiculo veiculo= veiculoRepository
                          .findById(dto.getIdVeiculo())
-                         .orElseThrow(()-> new VeiculoException("Veículo não encontrado."));
+                         .orElseThrow(()-> new VeiculoException("Veículo não encontrado ou inválido."));
         
         OrdemServico editado= repository
                             .findById(id)
-                            .orElseThrow(()-> new OrdemServicoException("Ordem de Serviço não encontrada."));
+                            .orElseThrow(()-> new OrdemServicoException("Ordem de Serviço não encontrada ou inválida."));
             
         editado.setVeiculo(veiculo);
         editado.setStatus(dto.getStatusOrdem());
@@ -57,11 +56,14 @@ public class OrdemServicoService {
         return resultado;
     }
 
-    public List<OrdemServicoResponseDTO> listar() {
+    public Page<OrdemServicoResponseDTO> listar(Pageable pageable) {
         return repository
-               .findAll()
-               .stream()
-               .map(ordem-> new OrdemServicoResponseDTO(ordem.getId(), ordem.getVeiculo().getId(), ordem.getStatus().name()))
-               .collect(Collectors.toList());
+               .findAll(pageable)
+               .map(ordem-> new OrdemServicoResponseDTO (
+                        ordem.getId(), 
+                        ordem.getVeiculo().getId(), 
+                        ordem.getStatus().name()
+                    )
+                );
     }
 }

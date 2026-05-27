@@ -1,10 +1,11 @@
 package br.com.serratec.projetoapi.controller;
 
-import br.com.serratec.projetoapi.model.Cliente;
 import br.com.serratec.projetoapi.service.ClienteService;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,4 +36,10 @@ public class ClienteController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping
+    public Page<ClienteResponseDTO> listar(Pageable pageable) {
+        return service.listar(pageable);
+    }
+    
 }

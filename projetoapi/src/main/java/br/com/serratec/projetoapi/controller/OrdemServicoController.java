@@ -3,6 +3,8 @@ package br.com.serratec.projetoapi.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,7 +42,7 @@ public class OrdemServicoController {
     }
 
     @GetMapping
-    public List<OrdemServicoResponseDTO> listar() {
-        return service.listar();
+    public Page<OrdemServicoResponseDTO> listar(Pageable pageable) {
+        return service.listar(pageable);
     }
 }
