@@ -23,10 +23,9 @@ public class ClienteService {
     @Autowired
     private EmailService emailService;
 
-    public Cliente buscarPorId(Long id) {
-        return repository
-               .findById(id)
-               .orElseThrow(()-> new ClienteException("Cliente não encontrado."));
+    public Boolean buscar(Long id) {
+        Boolean resultado= repository.existsById(id);
+        return resultado;
     }
 
     public ClienteResponseDTO inserir(ClienteRequestDTO dto) {
