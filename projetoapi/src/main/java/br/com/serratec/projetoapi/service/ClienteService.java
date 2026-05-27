@@ -45,7 +45,7 @@ public class ClienteService {
         return salvo;
     }
 
- public Cliente editar(Long id, Cliente cliente) {
+public Cliente editar(Long id, Cliente cliente) {
 
         Cliente clienteBanco = repository.findById(id).orElse(null);
 
