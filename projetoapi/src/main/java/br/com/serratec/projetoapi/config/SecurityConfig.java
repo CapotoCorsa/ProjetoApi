@@ -52,7 +52,8 @@ public class SecurityConfig {
                 .headers(headers -> headers.frameOptions(null).disable());
 
         http.addFilterBefore(new JwtAuthenticationFilter(
-                authenticationManager(http.getSharedObject(AuthenticationConfiguration.class)), jwtUtil),
+                authenticationManager(http.getSharedObject(AuthenticationConfiguration.class)), jwtUtil,
+                userDetailsService),
                 UsernamePasswordAuthenticationFilter.class);
 
         http.addFilterBefore(new JwtAuthorizationFilter(
