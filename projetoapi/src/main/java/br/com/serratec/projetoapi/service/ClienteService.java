@@ -15,7 +15,6 @@ import br.com.serratec.projetoapi.repository.ClienteRepository;
 
 @Service
 public class ClienteService {
-
     @Autowired
     private ClienteRepository repository;
 
