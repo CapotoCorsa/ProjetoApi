@@ -6,12 +6,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
-public class ServicosOrdem {
+public class Checkout {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
@@ -26,7 +24,7 @@ public class ServicosOrdem {
     @JoinColumn(name= "id_servico")
     private Servico servico;
     
-    private Double total;
+    private Double subtotal;
     private Double desconto;
     private Integer quantidade;
 
@@ -54,8 +52,9 @@ public class ServicosOrdem {
         this.servico = servico;
     }
     
-    public Double getTotal() {
-        return total;
+    public Double getSubtotal() {
+        this.subtotal= (servico.getValor()* (quantidade!= null? quantidade: 1))* (1- ((desconto!= null? desconto: 0.0)/ 100));
+        return subtotal;
     }
     
     public Double getDesconto() {
@@ -72,13 +71,6 @@ public class ServicosOrdem {
     
     public void setQuantidade(Integer quantidade) {
         this.quantidade = quantidade;
-    }
-
-    @PrePersist
-    @PreUpdate
-    public void subtotal() {
-        total= (servico.getValor()* (quantidade!= null? quantidade: 1))
-                * (1- ((desconto!= null? desconto: 0.0)/ 100));
     }
     
 }
