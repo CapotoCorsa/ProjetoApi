@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.serratec.projetoapi.dto.ClienteRequestDTO;
 import br.com.serratec.projetoapi.dto.ClienteResponseDTO;
-import br.com.serratec.projetoapi.dto.ViaCepDTO;
+import br.com.serratec.projetoapi.dto.ViaCepResponseDTO;
 import br.com.serratec.projetoapi.exception.ClienteException;
 import br.com.serratec.projetoapi.model.Cliente;
 import br.com.serratec.projetoapi.model.Endereco;
@@ -29,12 +29,12 @@ public class ClienteService {
     }
 
     public ClienteResponseDTO inserir(ClienteRequestDTO dto) {
-        ViaCepDTO viaCep = viaCepService.buscarEndereco(dto.cep());
+        ViaCepResponseDTO viaCep = viaCepService.buscarCep(dto.cep());
         Endereco endereco = new Endereco();
-        endereco.setRua(viaCep.logradouro());
+        endereco.setLogradouro(viaCep.logradouro());
         endereco.setBairro(viaCep.bairro());
-        endereco.setCidade(viaCep.localidade());
-        endereco.setEstado(viaCep.uf());
+        endereco.setLocalidade(viaCep.localidade());
+        endereco.setUf(viaCep.uf());
 
         Cliente salvo = new Cliente();
         salvo.setNome(dto.nome());
@@ -59,12 +59,12 @@ public class ClienteService {
                                .findById(id)
                                .orElseThrow(()-> new ClienteException("Cliente não encontrado."));
 
-        ViaCepDTO viaCep = viaCepService.buscarEndereco(dto.cep());
+        ViaCepResponseDTO viaCep = viaCepService.buscarCep(dto.cep());
         Endereco endereco = new Endereco();
-        endereco.setRua(viaCep.logradouro());
+        endereco.setLogradouro(viaCep.logradouro());
         endereco.setBairro(viaCep.bairro());
-        endereco.setCidade(viaCep.localidade());
-        endereco.setEstado(viaCep.uf());
+        endereco.setLocalidade(viaCep.localidade());
+        endereco.setUf(viaCep.uf());
         
         editado.setNome(dto.nome());
         editado.setTelefone(dto.telefone());
