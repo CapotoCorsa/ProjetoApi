@@ -9,6 +9,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -18,24 +19,26 @@ public class Cliente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Nome é obrigatório")
+    @NotBlank(message = "Nome é obrigatório.")
     @Size(min = 3, max = 100, message = "Nome deve ter entre 3 e 100 caracteres")
     private String nome;
 
-    @NotBlank(message = "Telefone é obrigatório")
+    @NotBlank(message = "Telefone é obrigatório.")
     private String telefone;
 
-    @NotBlank(message = "CPF é obrigatório")
-    @CPF(message = "CPF inválido")
+    @NotBlank(message = "CPF é obrigatório.")
+    @CPF(message = "CPF precisa ser válido.")
     private String cpf;
 
-    @NotBlank(message = "Email é obrigatório")
-    @Email(message = "Email inválido")
-    @Size(max = 150, message = "Email muito grande")
+    @NotBlank(message = "E-mail é obrigatório.")
+    @Email(message = "E-mail precisa ser válido.")
+    @Size(max = 150, message = "E-mail muito grande.")
     private String email;
-
+    
+    @NotBlank(message = "CEP é obrigatório.")
     private String cep;
 
+    @NotNull
     @Embedded
     private Endereco endereco;
 

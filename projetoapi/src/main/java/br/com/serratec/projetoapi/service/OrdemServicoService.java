@@ -28,28 +28,28 @@ public class OrdemServicoService {
                             .findById(dto.getIdVeiculo())
                             .orElseThrow(()-> new VeiculoException("Veículo não encontrado."));
         
-        OrdemServico ordem= new OrdemServico();
-        ordem.setVeiculo(veiculo);
-        ordem.setStatus(dto.getStatusOrdem());
-        repository.save(ordem);
+        OrdemServico salvo= new OrdemServico();
+        salvo.setVeiculo(veiculo);
+        salvo.setStatus(dto.getStatusOrdem());
+        repository.save(salvo);
 
-        return new OrdemServicoResponseDTO(ordem.getId(), ordem.getVeiculo().getId(), ordem.getStatus().name());
+        return new OrdemServicoResponseDTO(salvo.getId(), salvo.getVeiculo().getId(), salvo.getStatus().name());
     }
 
-    public OrdemServicoResponseDTO atualizar(OrdemServicoRequestDTO dto, Long id) {
+    public OrdemServicoResponseDTO editar(OrdemServicoRequestDTO dto, Long id) {
         Veiculo veiculo= veiculoRepository
                          .findById(dto.getIdVeiculo())
                          .orElseThrow(()-> new VeiculoException("Veículo não encontrado."));
         
-        OrdemServico ordem= repository
+        OrdemServico editado= repository
                             .findById(id)
                             .orElseThrow(()-> new OrdemServicoException("Ordem de Serviço não encontrada."));
             
-        ordem.setVeiculo(veiculo);
-        ordem.setStatus(dto.getStatusOrdem());
-        repository.save(ordem);
+        editado.setVeiculo(veiculo);
+        editado.setStatus(dto.getStatusOrdem());
+        repository.save(editado);
 
-        return new OrdemServicoResponseDTO(ordem.getId(), ordem.getVeiculo().getId(), ordem.getStatus().name());
+        return new OrdemServicoResponseDTO(editado.getId(), editado.getVeiculo().getId(), editado.getStatus().name());
     }
 
     public Boolean buscar(Long id) {

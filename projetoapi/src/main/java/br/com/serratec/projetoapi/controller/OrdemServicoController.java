@@ -32,9 +32,9 @@ public class OrdemServicoController {
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<OrdemServicoResponseDTO> atualizar(@Valid @RequestBody OrdemServicoRequestDTO dto, @PathVariable Long id) {
+    public ResponseEntity<OrdemServicoResponseDTO> editar(@Valid @RequestBody OrdemServicoRequestDTO dto, @PathVariable Long id) {
         if(service.buscar(id)) {
-            return ResponseEntity.ok(service.atualizar(dto, id));
+            return ResponseEntity.ok(service.editar(dto, id));
         }
         return ResponseEntity.notFound().build();
     }
