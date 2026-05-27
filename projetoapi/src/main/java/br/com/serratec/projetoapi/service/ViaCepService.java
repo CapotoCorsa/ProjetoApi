@@ -12,7 +12,6 @@ import br.com.serratec.projetoapi.exception.ViaCepException;
 
 @Service
 public class ViaCepService {
-
     public ViaCepDTO buscarEndereco(String cep) {
 
         try {
