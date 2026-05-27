@@ -1,31 +1,39 @@
 package br.com.serratec.projetoapi.service;
 
-import java.net.HttpURLConnection;
-import java.net.URL;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import br.com.serratec.projetoapi.dto.ViaCepDTO;
+import br.com.serratec.projetoapi.dto.ViaCepResponseDTO;
 import br.com.serratec.projetoapi.exception.ViaCepException;
+import br.com.serratec.projetoapi.model.Endereco;
+import br.com.serratec.projetoapi.repository.EnderecoRepository;
 
 @Service
 public class ViaCepService {
-    public ViaCepDTO buscarEndereco(String cep) {
+    @Autowired
+    private EnderecoRepository repository;
 
-        try {
-            URL url = new URL("https://viacep.com.br/ws/" + cep + "/json/");
+    public ViaCepResponseDTO buscarCep(String cep) {
+        Endereco enderecoBanco = repository.findByCep(cep);
 
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-
-            ObjectMapper mapper = new ObjectMapper();
-
-            return mapper.readValue(conn.getInputStream(), ViaCepDTO.class);
-
-        } catch (Exception e) {
-            throw new ViaCepException("Erro ao buscar CEP. "+ e.getMessage());
+        if (enderecoBanco != null) {
+            return new ViaCepResponseDTO(enderecoBanco);
+        } else {
+            RestTemplate restTemplate = new RestTemplate();
+            String url = "https://viacep.com.br/ws/" + cep + "/json";
+            Endereco enderecoViaCep = restTemplate.getForObject(url, Endereco.class);
+            if (enderecoViaCep != null) {
+                enderecoViaCep.setCep(enderecoViaCep.getCep().replaceAll("-", ""));
+                return inserir(enderecoViaCep);
+            }
+            else {
+                throw new ViaCepException("Cep não encontrado!");
+            }
         }
+    }
+
+    private ViaCepResponseDTO inserir(Endereco enderecoViaCep) {
+        return new ViaCepResponseDTO(repository.save(enderecoViaCep));
     }
 }
