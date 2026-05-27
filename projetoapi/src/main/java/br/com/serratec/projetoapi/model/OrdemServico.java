@@ -29,8 +29,10 @@ public class OrdemServico {
     @Enumerated(EnumType.STRING)
     private StatusOrdem status;
 
-    @OneToMany(mappedBy= "ordemServico")
-    private List<ServicosOrdem> servicos;
+    @OneToMany
+    private List<Checkout> checkouts;
+
+    private Double totalGeral;
     
     public Long getId() {
         return id;
@@ -56,8 +58,19 @@ public class OrdemServico {
         this.status = status;
     }
 
-    public List<ServicosOrdem> getServicos() {
-        return servicos;
+    public List<Checkout> getCheckouts() {
+        return checkouts;
+    }
+
+    public Double getTotalGeral() {
+        for (Checkout checkout : checkouts) {
+            totalGeral+= checkout.getSubtotal();
+        }
+        return totalGeral;
+    }
+
+    public void setTotalGeral(Double totalGeral) {
+        this.totalGeral = totalGeral;
     }
 
 }

@@ -1,7 +1,7 @@
 package br.com.serratec.projetoapi.service;
 
 import org.springframework.data.domain.Pageable;
-
+import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 
@@ -14,6 +14,7 @@ import br.com.serratec.projetoapi.model.Veiculo;
 import br.com.serratec.projetoapi.repository.ClienteRepository;
 import br.com.serratec.projetoapi.repository.VeiculoRepository;
 
+@Service
 public class VeiculoService {
     @Autowired
     private VeiculoRepository repository;
