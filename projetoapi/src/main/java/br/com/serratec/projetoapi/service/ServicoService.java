@@ -17,7 +17,7 @@ public class ServicoService {
         return repository.save(servico);
     }
 
-    public Servico atualizar(Long id, Servico servico) {
+    public Servico editar(Long id, Servico servico) {
         if(repository.existsById(id)) {
             servico.setId(id);
             return repository.save(servico);

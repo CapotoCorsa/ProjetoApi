@@ -35,7 +35,7 @@ public class ServicoController {
     @PutMapping("{id}")
     public ResponseEntity<Servico> atualizar(@Valid @RequestBody Servico servico, @PathVariable Long id) {
         if(service.buscar(id)) {
-            return ResponseEntity.ok(service.atualizar(id, servico));
+            return ResponseEntity.ok(service.editar(id, servico));
         }
         return ResponseEntity.notFound().build();
     }

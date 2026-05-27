@@ -1,12 +1,17 @@
 package br.com.serratec.projetoapi.controller;
 
-import br.com.serratec.projetoapi.model.Cliente;
 import br.com.serratec.projetoapi.service.ClienteService;
 import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import br.com.serratec.projetoapi.dto.ClienteRequestDTO;
+import br.com.serratec.projetoapi.dto.ClienteResponseDTO;
 
 @RestController
 @RequestMapping("/clientes")
@@ -17,22 +22,24 @@ public class ClienteController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Cliente inserir(@Valid @RequestBody Cliente cliente) {
-        return service.inserir(cliente);
+    public ClienteResponseDTO inserir(@Valid @RequestBody ClienteRequestDTO dto) {
+        return service.inserir(dto);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<Cliente> alterar(
-            @Valid @RequestBody Cliente cliente,
+    public ResponseEntity<ClienteResponseDTO> editar(
+            @Valid @RequestBody ClienteRequestDTO dto,
             @PathVariable Long id) {
 
-        if (service.buscarPorId(id) != null) {
-
-            cliente.setId(id);
-
-            return ResponseEntity.ok(service.inserir(cliente));
+        if(service.buscar(id)) {
+            return ResponseEntity.ok(service.editar(id, dto));
         }
-
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping
+    public Page<ClienteResponseDTO> listar(Pageable pageable) {
+        return service.listar(pageable);
+    }
+    
 }
