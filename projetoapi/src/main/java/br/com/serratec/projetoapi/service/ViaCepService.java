@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.serratec.projetoapi.dto.ViaCepDTO;
+import br.com.serratec.projetoapi.exception.ViaCepException;
 
 @Service
 public class ViaCepService {
@@ -25,7 +26,7 @@ public class ViaCepService {
             return mapper.readValue(conn.getInputStream(), ViaCepDTO.class);
 
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao buscar CEP", e);
+            throw new ViaCepException("Erro ao buscar CEP. "+ e.getMessage());
         }
     }
 }

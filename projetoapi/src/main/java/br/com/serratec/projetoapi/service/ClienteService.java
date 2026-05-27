@@ -1,6 +1,8 @@
 package br.com.serratec.projetoapi.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.serratec.projetoapi.dto.ClienteRequestDTO;
@@ -82,4 +84,17 @@ public class ClienteService {
 
         return new ClienteResponseDTO(editado.getId(), editado.getNome(), editado.getTelefone(), editado.getEmail());
     }
+
+    public Page<ClienteResponseDTO> listar(Pageable pageable) {
+        return repository
+               .findAll(pageable)
+               .map(cliente-> new ClienteResponseDTO (
+                        cliente.getId(), 
+                        cliente.getNome(), 
+                        cliente.getTelefone(),
+                        cliente.getEmail()
+                    )
+                );
+    }
+
 }
