@@ -3,20 +3,23 @@ package br.com.serratec.projetoapi.model;
 import java.time.LocalDate;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Avaliacao {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotNull(message= "Preencha a nota.")
     private Integer nota;
-
+    
     private String comentario;
-
+    
+    @NotNull(message= "Preencha a nota.")
     private LocalDate data;
-
+    
+    @NotNull(message= "Preencha o ID do cliente.")
     @ManyToOne
     @JoinColumn(name = "id_cliente")
     private Cliente cliente;

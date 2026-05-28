@@ -10,7 +10,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 public class Imagem {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
