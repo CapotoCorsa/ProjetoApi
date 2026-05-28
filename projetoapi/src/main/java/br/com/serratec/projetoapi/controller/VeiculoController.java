@@ -51,6 +51,7 @@ public class VeiculoController {
     @PostMapping
     public VeiculoResponseDTO inserir(@Valid @RequestBody VeiculoRequestDTO dto) {
         return service.inserir(dto);
+		
     }
 
     @Operation(summary = "Editar Veículo", description = "Edita os dados de um veículo.")

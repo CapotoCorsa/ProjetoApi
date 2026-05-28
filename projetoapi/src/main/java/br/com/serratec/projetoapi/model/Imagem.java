@@ -1,4 +1,4 @@
-//essa é a parte individual do Douglas Mathias Barboza =D
+//essa é a parte individual do Douglas Mathias Barboza
 //decidi fazer uma das sugestões do Roni na atividade que é a de upload de imagens 👍
 
 package br.com.serratec.projetoapi.model;
@@ -6,8 +6,11 @@ package br.com.serratec.projetoapi.model;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 public class Imagem {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -15,15 +18,20 @@ public class Imagem {
     private String tipo;
     private String nome;
 
+    @ManyToOne
+    @JoinColumn(name = "veiculo_id")
+    private Veiculo veiculo;
+
     public Imagem(){
 
     }
 
-    public Imagem(Long id, byte[] dados, String tipo, String nome) {
+    public Imagem(Long id, byte[] dados, String tipo, String nome, Veiculo veiculo) {
         this.id = id;
         this.dados = dados;
         this.tipo = tipo;
         this.nome = nome;
+        this.veiculo = veiculo;
     }
 
     public Long getId() {
@@ -56,6 +64,14 @@ public class Imagem {
 
     public void setNome(String nome) {
         this.nome = nome;
+    }
+
+    public Veiculo getVeiculo() {
+        return veiculo;
+    }
+
+    public void setVeiculo(Veiculo veiculo) {
+        this.veiculo = veiculo;
     }
 
     
