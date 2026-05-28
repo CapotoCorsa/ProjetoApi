@@ -38,15 +38,12 @@ public class SecurityConfig {
         http.csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(requests -> requests
-                        .requestMatchers(HttpMethod.GET, "/funcionarios").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/perfis").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/perfis").permitAll()
                         .requestMatchers("/h2-console/**").permitAll()
 
-                        .requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
 
+                        .requestMatchers(HttpMethod.POST, "/usuarios").permitAll()
                         .requestMatchers(HttpMethod.GET, "/usuarios").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/funcionarios/*/foto").hasAnyRole("ADMIN", "COMPRAS", "RH")
-                        .requestMatchers(HttpMethod.POST, "/funcionarios").hasAnyRole("ADMIN", "COMPRAS", "RH")
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .headers(headers -> headers.frameOptions(frame -> frame.disable()));
