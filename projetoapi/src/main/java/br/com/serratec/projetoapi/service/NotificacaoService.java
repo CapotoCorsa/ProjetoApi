@@ -12,8 +12,9 @@ public class NotificacaoService {
     
     public void notificar(String email, String status) {
         String mensagem= "O status da ordem de serviço foi atualizado. Favor entrar em contato para mais detalhes.";
+        String assunto= "Novo Status: "+ status;
 
-        service.enviarEmail(email, status, mensagem);
+        service.enviarEmail(email, assunto, mensagem);
     }
 
 }
