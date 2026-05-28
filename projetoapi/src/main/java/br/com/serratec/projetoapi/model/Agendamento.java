@@ -11,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Agendamento {
@@ -18,18 +19,25 @@ public class Agendamento {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
+    @NotNull(message= "Preencha a data.")
     private LocalDate data;
-    private LocalTime hora;
 
+    @NotNull(message= "Preencha a hora.")
+    private LocalTime hora;
+    
+    @NotNull(message= "Preencha o status.")
     @Enumerated(EnumType.STRING)
     private StatusAgendamento status;
     
+    @NotNull(message= "Preencha o ID do cliente.")
     @ManyToOne
     private Cliente cliente;
-
+    
+    @NotNull(message= "Preencha o ID do veículo.")
     @ManyToOne
     private Veiculo veiculo;
-
+    
+    @NotNull(message= "Preencha o ID do serviço.")
     @ManyToOne
     private Servico servico;
 

@@ -54,6 +54,14 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(er);
     }
 
+    @ExceptionHandler(UsuarioException.class)
+    protected @Nullable ResponseEntity<Object> handleUsuarioException(UsuarioException ex) {
+        ErroResposta er = new ErroResposta(HttpStatus.NOT_FOUND.value(), "Registro não encontrado. " + ex.getMessage(),
+                LocalDateTime.now());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(er);
+    }
+
     @ExceptionHandler(VeiculoException.class)
     protected @Nullable ResponseEntity<Object> handleVeiculoException(VeiculoException ex) {
         ErroResposta er = new ErroResposta(HttpStatus.NOT_FOUND.value(), "Registro não encontrado. " + ex.getMessage(),
