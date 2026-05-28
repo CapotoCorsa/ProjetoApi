@@ -6,7 +6,6 @@ import jakarta.persistence.ManyToOne;
 
 @Embeddable
 public class UsuarioPerfilPK {
-
     @ManyToOne
     @JoinColumn(name = "id_usuario")
     private Usuario usuario;
