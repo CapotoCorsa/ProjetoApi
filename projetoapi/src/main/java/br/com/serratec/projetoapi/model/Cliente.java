@@ -2,14 +2,14 @@ package br.com.serratec.projetoapi.model;
 
 import org.hibernate.validator.constraints.br.CPF;
 
-import jakarta.persistence.Embedded;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 @Entity
@@ -36,10 +36,10 @@ public class Cliente {
     private String email;
     
     @NotBlank(message = "CEP é obrigatório.")
+    @Column(name = "cep_cliente")
     private String cep;
 
-    @NotNull
-    @Embedded
+    @OneToOne
     private Endereco endereco;
 
     public Long getId() {
