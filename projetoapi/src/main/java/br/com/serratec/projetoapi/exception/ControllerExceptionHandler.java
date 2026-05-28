@@ -85,22 +85,4 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(er);
     }
 
-    @ExceptionHandler(ImagemException.class)
-    protected @Nullable ResponseEntity<Object> handleImagemException(ImagemException ex) {
-        ErroResposta er = new ErroResposta(HttpStatus.NOT_FOUND.value(), "Imagem não encontrada! " + ex.getMessage(),
-                LocalDateTime.now());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(er);
-    }
-
-    @ExceptionHandler(DataBaseException.class)
-    protected @Nullable ResponseEntity<Object> handleDatabaseException(DataBaseException ex) {
-
-        ErroResposta er = new ErroResposta(
-                HttpStatus.CONFLICT.value(),
-                "Erro de banco de dados! " + ex.getMessage(),
-                LocalDateTime.now());
-
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(er);
-    }
-
 }
