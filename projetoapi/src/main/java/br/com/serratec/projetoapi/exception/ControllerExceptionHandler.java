@@ -40,7 +40,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ViaCepException.class)
     protected @Nullable ResponseEntity<Object> handleViaCepException(ViaCepException ex) {
-        ErroResposta er = new ErroResposta(HttpStatus.NOT_FOUND.value(), "CEP inválido! " + ex.getMessage(),
+        ErroResposta er = new ErroResposta(HttpStatus.NOT_FOUND.value(), "CEP inválido. " + ex.getMessage(),
                 LocalDateTime.now());
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(er);
@@ -48,7 +48,15 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ClienteException.class)
     protected @Nullable ResponseEntity<Object> handleClienteException(ClienteException ex) {
-        ErroResposta er = new ErroResposta(HttpStatus.NOT_FOUND.value(), "Registro não encontrado! " + ex.getMessage(),
+        ErroResposta er = new ErroResposta(HttpStatus.NOT_FOUND.value(), "Registro não encontrado. " + ex.getMessage(),
+                LocalDateTime.now());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(er);
+    }
+
+    @ExceptionHandler(UsuarioException.class)
+    protected @Nullable ResponseEntity<Object> handleUsuarioException(UsuarioException ex) {
+        ErroResposta er = new ErroResposta(HttpStatus.NOT_FOUND.value(), "Registro não encontrado. " + ex.getMessage(),
                 LocalDateTime.now());
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(er);
@@ -56,7 +64,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(VeiculoException.class)
     protected @Nullable ResponseEntity<Object> handleVeiculoException(VeiculoException ex) {
-        ErroResposta er = new ErroResposta(HttpStatus.NOT_FOUND.value(), "Registro não encontrado! " + ex.getMessage(),
+        ErroResposta er = new ErroResposta(HttpStatus.NOT_FOUND.value(), "Registro não encontrado. " + ex.getMessage(),
                 LocalDateTime.now());
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(er);
@@ -64,15 +72,23 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(OrdemServicoException.class)
     protected @Nullable ResponseEntity<Object> handleOrdemServicoException(OrdemServicoException ex) {
-        ErroResposta er = new ErroResposta(HttpStatus.NOT_FOUND.value(), "Registro não encontrado! " + ex.getMessage(),
+        ErroResposta er = new ErroResposta(HttpStatus.NOT_FOUND.value(), "Registro não encontrado. " + ex.getMessage(),
                 LocalDateTime.now());
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(er);
     }
 
+    @ExceptionHandler(AgendamentoException.class)
+    protected @Nullable ResponseEntity<Object> handleAgendamentoException(AgendamentoException ex) {
+        ErroResposta er = new ErroResposta(HttpStatus.BAD_REQUEST.value(), "Registro inválido. " + ex.getMessage(),
+                LocalDateTime.now());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(er);
+    }
+
     @ExceptionHandler(EnumException.class)
     protected @Nullable ResponseEntity<Object> handleEnumException(EnumException ex) {
-        ErroResposta er = new ErroResposta(HttpStatus.BAD_REQUEST.value(), "Enum inválido! " + ex.getMessage(),
+        ErroResposta er = new ErroResposta(HttpStatus.BAD_REQUEST.value(), "Enum inválido. " + ex.getMessage(),
                 LocalDateTime.now());
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(er);
@@ -80,9 +96,27 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(AutenticacaoException.class)
     protected @Nullable ResponseEntity<Object> handleAutenticacaoException(AutenticacaoException ex) {
-        ErroResposta er = new ErroResposta(HttpStatus.UNAUTHORIZED.value(), "Erro de autenticação! " + ex.getMessage(),
+        ErroResposta er = new ErroResposta( HttpStatus.UNAUTHORIZED.value(), "Erro de autenticação. " + ex.getMessage(),
                 LocalDateTime.now());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(er);
+    }
+
+    @ExceptionHandler(ImagemException.class)
+    protected @Nullable ResponseEntity<Object> handleImagemException(ImagemException ex) {
+        ErroResposta er = new ErroResposta(HttpStatus.NOT_FOUND.value(), "Imagem não encontrada! " + ex.getMessage(),
+                LocalDateTime.now());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(er);
+    }
+
+    @ExceptionHandler(DataBaseException.class)
+    protected @Nullable ResponseEntity<Object> handleDatabaseException(DataBaseException ex) {
+
+        ErroResposta er = new ErroResposta(
+                HttpStatus.CONFLICT.value(),
+                "Erro de banco de dados! " + ex.getMessage(),
+                LocalDateTime.now());
+
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(er);
     }
 
 }

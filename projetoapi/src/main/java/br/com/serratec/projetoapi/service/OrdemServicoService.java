@@ -22,6 +22,9 @@ public class OrdemServicoService {
     @Autowired
     private VeiculoRepository veiculoRepository;
 
+    @Autowired
+    private NotificacaoService notificacaoService;
+
     public OrdemServicoResponseDTO inserir(OrdemServicoRequestDTO dto) {
         Veiculo veiculo= veiculoRepository
                             .findById(dto.getIdVeiculo())
@@ -48,6 +51,7 @@ public class OrdemServicoService {
         editado.setStatus(dto.getStatusOrdem());
         repository.save(editado);
 
+        notificacaoService.notificar(editado.getVeiculo().getCliente().getEmail(), editado.getStatus().name());
         return new OrdemServicoResponseDTO(editado.getId(), editado.getVeiculo().getId(), editado.getStatus().name());
     }
 
