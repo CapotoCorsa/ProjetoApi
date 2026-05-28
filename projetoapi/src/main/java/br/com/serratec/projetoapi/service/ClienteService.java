@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import br.com.serratec.projetoapi.config.MailConfig;
 import br.com.serratec.projetoapi.dto.ClienteRequestDTO;
 import br.com.serratec.projetoapi.dto.ClienteResponseDTO;
 import br.com.serratec.projetoapi.dto.ViaCepResponseDTO;
@@ -22,7 +23,7 @@ public class ClienteService {
     private ViaCepService viaCepService;
 
     @Autowired
-    private EmailService emailService;
+    private MailConfig mailConfig;
 
     public Boolean buscar(Long id) {
         Boolean resultado= repository.existsById(id);
@@ -46,7 +47,7 @@ public class ClienteService {
         salvo.setEndereco(endereco);
         repository.save(salvo);
 
-        emailService.enviarEmail(
+        mailConfig.sendEmail(
                 salvo.getEmail(),
                 "Cadastro realizado",
                 "Cliente cadastrado com sucesso!"
@@ -75,7 +76,7 @@ public class ClienteService {
         editado.setEndereco(endereco);
         repository.save(editado);
 
-        emailService.enviarEmail(
+        mailConfig.sendEmail(
                 editado.getEmail(),
                 "Cadastro editado",
                 "Cliente editado com sucesso!"

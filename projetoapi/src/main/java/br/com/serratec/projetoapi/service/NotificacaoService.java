@@ -2,19 +2,21 @@ package br.com.serratec.projetoapi.service;
 
 import org.springframework.stereotype.Service;
 
+import br.com.serratec.projetoapi.config.MailConfig;
+
 @Service
 public class NotificacaoService {
-    private final EmailService service;
+    private final MailConfig mailConfig;
 
-    public NotificacaoService(EmailService service) {
-        this.service = service;
+    public NotificacaoService(MailConfig mailConfig) {
+        this.mailConfig = mailConfig;
     }
     
     public void notificar(String email, String status) {
-        String mensagem= "O status da ordem de serviço foi atualizado. Favor entrar em contato para mais detalhes.";
         String assunto= "Novo Status: "+ status;
+        String texto= "O status da ordem de serviço foi atualizado. Favor entrar em contato para mais detalhes.";
 
-        service.enviarEmail(email, assunto, mensagem);
+        mailConfig.sendEmail(email, assunto, texto);
     }
 
 }
