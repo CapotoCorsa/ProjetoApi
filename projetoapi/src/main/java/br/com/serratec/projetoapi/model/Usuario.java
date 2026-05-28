@@ -16,26 +16,28 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 public class Usuario implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String nome;
-    private String senha;
-    private String email;
 
-    @ManyToOne
-    @JoinColumn(name = "id_endereco")
-    private Endereco endereco;
+    @NotBlank(message= "Preencha o nome.")
+    private String nome;
+
+    @NotBlank(message= "Preencha o senha.")
+    private String senha;
+
+    @NotBlank(message= "Preencha o e-mail.")
+    @Email(message= "Insira um e-mail válido.")
+    private String email;
 
     @OneToMany(mappedBy = "id.usuario", fetch = FetchType.EAGER)
     private Set<UsuarioPerfil> usuarioPerfis = new HashSet<>();
-
 
     public Long getId() {
         return id;

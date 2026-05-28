@@ -8,7 +8,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 
 @Configuration
 public class MailConfig {
-    @Value("${USUARIO_EMAIL}")
+    @Value("auth.jwt-secret")
     private String email;
     
     @Autowired

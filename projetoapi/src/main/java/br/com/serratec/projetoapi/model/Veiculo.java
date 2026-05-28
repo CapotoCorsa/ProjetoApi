@@ -7,9 +7,8 @@ import jakarta.persistence.*;
 
 @Entity
 public class Veiculo {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String placa;

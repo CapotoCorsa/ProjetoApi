@@ -9,7 +9,6 @@ import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Historico {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

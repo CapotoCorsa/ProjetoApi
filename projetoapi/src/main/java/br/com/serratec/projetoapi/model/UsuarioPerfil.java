@@ -7,7 +7,6 @@ import jakarta.persistence.Entity;
 
 @Entity
 public class UsuarioPerfil {
-
     @EmbeddedId
     private UsuarioPerfilPK id = new UsuarioPerfilPK();
 
