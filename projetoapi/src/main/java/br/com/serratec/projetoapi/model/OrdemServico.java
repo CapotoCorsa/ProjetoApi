@@ -29,7 +29,7 @@ public class OrdemServico {
     @Enumerated(EnumType.STRING)
     private StatusOrdem status;
 
-    @OneToMany
+    @OneToMany(mappedBy = "ordem")
     private List<Checkout> checkouts;
 
     private Double totalGeral;
