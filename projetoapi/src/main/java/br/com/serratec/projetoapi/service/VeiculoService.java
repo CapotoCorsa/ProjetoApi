@@ -50,9 +50,9 @@ public class VeiculoService {
         salvo.setModelo(dto.modelo());
         salvo.setAno(dto.ano());
         salvo.setCor(dto.cor());
-        salvo.setCliente(clienteRepository.findById(dto.idCliente()).get());
         
-        repository.save(salvo);
+        salvo.setCliente(cliente); 
+
         return new VeiculoResponseDTO(salvo.getId(), salvo.getPlaca(), salvo.getModelo(), salvo.getCliente());
     }
 
@@ -70,9 +70,9 @@ public class VeiculoService {
         editado.setModelo(dto.modelo());
         editado.setAno(dto.ano());
         editado.setCor(dto.cor());
-        editado.setCliente(clienteRepository.findById(dto.idCliente()).get());
         
-        repository.save(editado);
+        editado.setCliente(cliente); 
+
         return new VeiculoResponseDTO(editado.getId(), editado.getPlaca(), editado.getModelo(), editado.getCliente());
     }
     
