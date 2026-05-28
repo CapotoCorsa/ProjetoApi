@@ -15,4 +15,5 @@ public class NotificacaoService {
 
         service.enviarEmail(email, status, mensagem);
     }
+
 }
