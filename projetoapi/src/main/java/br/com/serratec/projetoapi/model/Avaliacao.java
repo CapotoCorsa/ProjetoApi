@@ -3,7 +3,12 @@ package br.com.serratec.projetoapi.model;
 import java.time.LocalDate;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Avaliacao {
@@ -11,12 +16,17 @@ public class Avaliacao {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull(message= "Preencha a nota.")
+    @NotNull(message = "Preencha a nota.")
+    @Min(value = 1, message = "A nota mínima é 1.")
+    @Max(value = 5, message = "A nota máxima é 5.")
     private Integer nota;
-    
+
+    @NotBlank(message = "Preencha o comentário.")
+    @Size(min = 3, max = 255, message = "O comentário deve ter entre 3 e 255 caracteres.")
     private String comentario;
-    
-    @NotNull(message= "Preencha a nota.")
+
+    @NotNull(message = "Preencha a data.")
+    @PastOrPresent(message = "A data não pode ser futura.")
     private LocalDate data;
     
     @NotNull(message= "Preencha o ID da ordem de serviço.")
@@ -63,4 +73,6 @@ public class Avaliacao {
     public void setOrdem(OrdemServico ordem) {
         this.ordem = ordem;
     }
+
+    
 }
