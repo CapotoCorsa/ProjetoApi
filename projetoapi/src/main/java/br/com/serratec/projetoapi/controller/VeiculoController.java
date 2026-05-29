@@ -38,11 +38,11 @@ public class VeiculoController {
         return service.listar(pageable);
     }
 
-    @Operation(summary = "Inserir Veículo", description = "Inseri um novo veículo.")
+    @Operation(summary = "Inserir Veículo", description = "Insere um novo veículo.")
 	@ApiResponses(value = { 
 			@ApiResponse(responseCode = "201", 
 			content = {@Content(schema = @Schema(implementation = Cliente.class), mediaType = "application/json")},
-			description = "Inseri um novo veículo."),
+			description = "Insere um novo veículo."),
 			@ApiResponse(responseCode = "401", description = "Erro de autenticação"),
 			@ApiResponse(responseCode = "403", description = "Não há permissão para acessar o recurso"),
 			@ApiResponse(responseCode = "404", description = "Recurso não encontrado"),

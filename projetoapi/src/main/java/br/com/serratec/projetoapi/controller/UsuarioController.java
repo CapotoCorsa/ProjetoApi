@@ -11,6 +11,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.serratec.projetoapi.service.UsuarioService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+
 import java.util.*;
 
 import br.com.serratec.projetoapi.dto.UsuarioRequestDTO;
@@ -24,11 +30,31 @@ public class UsuarioController {
     @Autowired
     private UsuarioService service;
 
+    @Operation(summary = "Listar usuarios", description = "Lista todos os usuarios.")
+    @ApiResponses(value = { 
+            @ApiResponse(responseCode = "201", 
+            content = {@Content(schema = @Schema(implementation = Imagem.class), mediaType = "application/json")},
+            description = "Lista todos os usuarios."),
+            @ApiResponse(responseCode = "401", description = "Erro de autenticação"),
+            @ApiResponse(responseCode = "403", description = "Não há permissão para acessar o recurso"),
+            @ApiResponse(responseCode = "404", description = "Veículo não encontrado"),
+            @ApiResponse(responseCode = "505", description = "Exceção interna da aplicação") 
+    })
     @GetMapping
     public ResponseEntity<List<UsuarioResponseDTO>> listar() {
         return ResponseEntity.ok(service.listar());
     }
 
+    @Operation(summary = "Inerir usuario", description = "Insere um usuario.")
+    @ApiResponses(value = { 
+            @ApiResponse(responseCode = "201", 
+            content = {@Content(schema = @Schema(implementation = Imagem.class), mediaType = "application/json")},
+            description = "Insere um usuario."),
+            @ApiResponse(responseCode = "401", description = "Erro de autenticação"),
+            @ApiResponse(responseCode = "403", description = "Não há permissão para acessar o recurso"),
+            @ApiResponse(responseCode = "404", description = "Veículo não encontrado"),
+            @ApiResponse(responseCode = "505", description = "Exceção interna da aplicação") 
+    })
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public UsuarioResponseDTO inserir(@RequestBody UsuarioRequestDTO dto) {

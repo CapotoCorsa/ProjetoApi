@@ -2,6 +2,7 @@ package br.com.serratec.projetoapi.model;
 
 import org.hibernate.validator.constraints.br.CPF;
 
+import br.com.serratec.projetoapi.dto.ClienteResponseDTO;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -97,6 +98,8 @@ public class Cliente {
         this.cep = cep;
     }
 
-    
+    public ClienteResponseDTO getDto() {
+        return new ClienteResponseDTO(id, nome, telefone, email);
+    }    
 
 }

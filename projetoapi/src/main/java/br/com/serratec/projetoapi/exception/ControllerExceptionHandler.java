@@ -78,6 +78,22 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(er);
     }
 
+    @ExceptionHandler(CheckoutException.class)
+    protected @Nullable ResponseEntity<Object> handleCheckoutException(CheckoutException ex) {
+        ErroResposta er = new ErroResposta(HttpStatus.NOT_FOUND.value(), "Registro não encontrado. " + ex.getMessage(),
+                LocalDateTime.now());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(er);
+    }
+
+    @ExceptionHandler(ServicoException.class)
+    protected @Nullable ResponseEntity<Object> handleServicoException(ServicoException ex) {
+        ErroResposta er = new ErroResposta(HttpStatus.NOT_FOUND.value(), "Registro não encontrado. " + ex.getMessage(),
+                LocalDateTime.now());
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(er);
+    }
+
     @ExceptionHandler(AgendamentoException.class)
     protected @Nullable ResponseEntity<Object> handleAgendamentoException(AgendamentoException ex) {
         ErroResposta er = new ErroResposta(HttpStatus.BAD_REQUEST.value(), "Registro inválido. " + ex.getMessage(),
