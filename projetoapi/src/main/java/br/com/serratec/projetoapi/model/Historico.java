@@ -7,6 +7,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 
 @Entity
 public class Historico {
@@ -15,6 +16,7 @@ public class Historico {
     private Long id;
 
     @NotNull(message= "Preencha a data de manutenção.")
+    @PastOrPresent(message = "A data não pode ser no futuro")
     private String dataManutencao;
 
     private String descricao;

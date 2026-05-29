@@ -1,9 +1,13 @@
 package br.com.serratec.projetoapi.model;
 
-import jakarta.persistence.*;
-
-
-
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Veiculo {
@@ -11,12 +15,22 @@ public class Veiculo {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotBlank(message= "Preencha a placa.")
     private String placa;
+    
+    @NotBlank(message= "Preencha a marca.")
     private String marca;
+
+    @NotBlank(message= "Preencha o modelo.")
     private String modelo;
+    
+    @NotNull(message= "Preencha o ano.")
     private Integer ano;
+    
+    @NotBlank(message= "Preencha o modelo.")
     private String cor;
 
+    @NotNull(message= "Preencha o ID do cliente.")
     @ManyToOne
     @JoinColumn(name = "id_cliente")
     private Cliente cliente;
