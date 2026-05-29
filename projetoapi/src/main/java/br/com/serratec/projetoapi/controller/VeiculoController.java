@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.MediaType;
 
 import br.com.serratec.projetoapi.dto.VeiculoRequestDTO;
 import br.com.serratec.projetoapi.dto.VeiculoResponseDTO;

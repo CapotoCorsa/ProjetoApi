@@ -7,11 +7,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import br.com.serratec.projetoapi.model.Imagem;
 import br.com.serratec.projetoapi.model.Veiculo;
 
-import java.util.Optional;
+import java.util.List;
 
 public interface ImagemRepository extends JpaRepository<Imagem, Long> {
 
-    Optional<Imagem> findByVeiculo(Veiculo Veiculo);
+    List<Imagem> findByVeiculo(Veiculo Veiculo);
 
     
 
