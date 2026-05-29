@@ -1,6 +1,9 @@
 package br.com.serratec.projetoapi.model;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import br.com.serratec.projetoapi.enums.StatusOrdem;
 import jakarta.persistence.Entity;
@@ -20,7 +23,7 @@ public class OrdemServico {
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
 
-    @NotNull(message= "Preencha o ID do veículo.")
+    @NotNull(message= "Preencha o ID do veÃculo.")
     @ManyToOne
     @JoinColumn(name= "id_veiculo")
     private Veiculo veiculo;
@@ -29,8 +32,9 @@ public class OrdemServico {
     @Enumerated(EnumType.STRING)
     private StatusOrdem status;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "ordem")
-    private List<Checkout> checkouts;
+    private List<Checkout> checkouts= new ArrayList<>();
 
     private Double totalGeral;
     
@@ -63,14 +67,21 @@ public class OrdemServico {
     }
 
     public Double getTotalGeral() {
-        for (Checkout checkout : checkouts) {
-            totalGeral+= checkout.getSubtotal();
-        }
         return totalGeral;
     }
 
     public void setTotalGeral(Double totalGeral) {
         this.totalGeral = totalGeral;
+    }
+
+    public void calcularTotalGeral() {
+        totalGeral = 0.0;
+
+        if (checkouts != null) {
+            for (Checkout checkout : checkouts) {
+                totalGeral += checkout.getSubtotal();
+            }
+        }
     }
 
 }

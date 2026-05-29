@@ -29,10 +29,6 @@ public class Agendamento {
     @Enumerated(EnumType.STRING)
     private StatusAgendamento status;
     
-    @NotNull(message= "Preencha o ID do cliente.")
-    @ManyToOne
-    private Cliente cliente;
-    
     @NotNull(message= "Preencha o ID do veículo.")
     @ManyToOne
     private Veiculo veiculo;
@@ -71,14 +67,6 @@ public class Agendamento {
 
     public void setStatus(StatusAgendamento status) {
         this.status = status;
-    }
-
-    public Cliente getCliente() {
-        return cliente;
-    }
-
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
     }
 
     public Veiculo getVeiculo() {

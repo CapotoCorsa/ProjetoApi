@@ -26,11 +26,11 @@ public class ClienteController {
     @Autowired
     private ClienteService service;
 
-    @Operation(summary = "Inserir Cliente", description = "Inseri um novo cliente.")
+    @Operation(summary = "Inserir Cliente", description = "Insere um novo cliente.")
 	@ApiResponses(value = { 
 			@ApiResponse(responseCode = "201", 
 			content = {@Content(schema = @Schema(implementation = Cliente.class), mediaType = "application/json")},
-			description = "Inseri um novo cliente."),
+			description = "Insere um novo cliente."),
 			@ApiResponse(responseCode = "401", description = "Erro de autenticação"),
 			@ApiResponse(responseCode = "403", description = "Não há permissão para acessar o recurso"),
 			@ApiResponse(responseCode = "404", description = "Recurso não encontrado"),

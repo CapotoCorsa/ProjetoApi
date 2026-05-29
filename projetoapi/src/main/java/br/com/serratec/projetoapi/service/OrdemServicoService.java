@@ -33,6 +33,7 @@ public class OrdemServicoService {
         OrdemServico salvo= new OrdemServico();
         salvo.setVeiculo(veiculo);
         salvo.setStatus(dto.getStatusOrdem());
+        salvo.calcularTotalGeral();
         repository.save(salvo);
 
         return new OrdemServicoResponseDTO(salvo.getId(), salvo.getVeiculo().getId(), salvo.getStatus().name());
@@ -49,6 +50,7 @@ public class OrdemServicoService {
             
         editado.setVeiculo(veiculo);
         editado.setStatus(dto.getStatusOrdem());
+        editado.calcularTotalGeral();
         repository.save(editado);
 
         notificacaoService.notificar(editado.getVeiculo().getCliente().getEmail(), editado.getStatus().name());
