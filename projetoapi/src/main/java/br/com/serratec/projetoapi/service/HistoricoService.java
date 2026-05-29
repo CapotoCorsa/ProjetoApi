@@ -1,11 +1,16 @@
 package br.com.serratec.projetoapi.service;
 
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import br.com.serratec.projetoapi.dto.HistoricoRequestDTO;
+import br.com.serratec.projetoapi.dto.HistoricoResponseDTO;
+import br.com.serratec.projetoapi.exception.HistoricoException;
+import br.com.serratec.projetoapi.exception.VeiculoException;
 import br.com.serratec.projetoapi.model.Historico;
 import br.com.serratec.projetoapi.model.Veiculo;
 import br.com.serratec.projetoapi.repository.HistoricoRepository;
@@ -13,45 +18,60 @@ import br.com.serratec.projetoapi.repository.VeiculoRepository;
 
 @Service
 public class HistoricoService {
-
     @Autowired
-    private HistoricoRepository historicoRepository;
+    private HistoricoRepository repository;
 
     @Autowired
     private VeiculoRepository veiculoRepository;
 
-    public Historico salvar(Long veiculoId, Historico historico) {
-        Optional<Veiculo> veiculoNoBanco = veiculoRepository.findById(veiculoId);
+    public HistoricoResponseDTO salvar(HistoricoRequestDTO dto) {
+        Veiculo veiculo= veiculoRepository
+                         .findById(dto.veiculoId())
+                         .orElseThrow(()-> new VeiculoException("Veículo não encontrado."));
         
-        if (veiculoNoBanco.isPresent()) {
-            historico.setVeiculo(veiculoNoBanco.get());
-            return historicoRepository.save(historico);
-        } else {
-            return null;
-        }
+        Historico historico= new Historico();
+        historico.setDataManutencao(dto.dataManutencao());
+        historico.setDescricao(dto.descricao());
+        historico.setValorCobrado(dto.valorCobrado());
+        historico.setVeiculo(veiculo);
+        
+        repository.save(historico);
+        return new HistoricoResponseDTO(historico.getId(), dto.dataManutencao(), dto.descricao(), dto.valorCobrado(), veiculo.getId());
     }
 
     public Page<Historico> buscarPorVeiculo(Long veiculoId, Pageable pageable) {
-        return historicoRepository.findByVeiculoId(veiculoId, pageable);
+        return repository.findByVeiculoId(veiculoId, pageable);
     }
 
-    public Historico alterar(Long id, Historico novosDados) {
-        Optional<Historico> historicoNoBanco = historicoRepository.findById(id);
-        
-        if (historicoNoBanco.isPresent()) {
-            Historico historicoAtual = historicoNoBanco.get();
-            historicoAtual.setDescricao(novosDados.getDescricao());
-            historicoAtual.setValorCobrado(novosDados.getValorCobrado());
-            historicoAtual.setDataManutencao(novosDados.getDataManutencao());
-            return historicoRepository.save(historicoAtual);
-        } else {
-            return null;
+    public Boolean buscarPorId(Long id) {
+        if(repository.existsById(id)) {
+            return true;
         }
+        throw new HistoricoException("Histórico não encontrado.");
+    }
+
+    public HistoricoResponseDTO alterar(Long id, HistoricoRequestDTO dto) {
+        Veiculo veiculo= veiculoRepository
+                         .findById(dto.veiculoId())
+                         .orElseThrow(()-> new VeiculoException("Veículo não encontrado."));
+        
+        Historico historico= repository
+                             .findById(id)
+                             .orElseThrow(()-> new HistoricoException("Histórico não encontrado."));
+
+        historico.setId(id);
+        historico.setDataManutencao(dto.dataManutencao());
+        historico.setDescricao(dto.descricao());
+        historico.setValorCobrado(dto.valorCobrado());
+        historico.setVeiculo(veiculo);
+        
+        repository.save(historico);
+        return new HistoricoResponseDTO(historico.getId(), dto.dataManutencao(), dto.descricao(), dto.valorCobrado(), veiculo.getId());
     }
 
     public boolean deletar(Long id) {
-        if (historicoRepository.existsById(id)) {
-            historicoRepository.deleteById(id);
+        if (repository.existsById(id)) {
+            repository.deleteById(id);
             return true;
         }
         return false;

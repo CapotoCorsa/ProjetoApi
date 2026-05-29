@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Historico {
@@ -13,10 +14,15 @@ public class Historico {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotNull(message= "Preencha a data de manutenção.")
     private String dataManutencao;
+
     private String descricao;
+
+    @NotNull(message= "Preencha o valor.")
     private Double valorCobrado;
 
+    @NotNull(message= "Preencha o ID do veículo.")
     @ManyToOne
     @JoinColumn(name = "id_veiculo")
     private Veiculo veiculo;
