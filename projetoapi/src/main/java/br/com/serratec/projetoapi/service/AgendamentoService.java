@@ -113,4 +113,11 @@ public class AgendamentoService {
         }
         throw new AgendamentoException("Agendamento inválido ou não encontrado.");
     }
+
+    public void apagar(Long id) {
+        if(repository.existsById(id)) {
+            repository.deleteById(id);
+        }
+        throw new AgendamentoException("Agendamento inválido ou já apagado.");
+    }
 }
