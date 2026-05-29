@@ -15,10 +15,12 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/veiculos")
+@Tag(name = "Veiculos", description = "Endpoints para gerenciamento dos veiculos")
 public class VeiculoController {
     @Autowired
     private VeiculoService service;
@@ -48,10 +50,10 @@ public class VeiculoController {
 			@ApiResponse(responseCode = "404", description = "Recurso não encontrado"),
 			@ApiResponse(responseCode = "505", description = "Exceção interna da aplicação") })
 
-    @PostMapping
-    public VeiculoResponseDTO inserir(@Valid @RequestBody VeiculoRequestDTO dto) {
-        return service.inserir(dto);
-		
+    //parte de file ta null pq a foto é adicionada dps
+	@PostMapping
+    public VeiculoResponseDTO inserir(@Valid @RequestBody VeiculoRequestDTO dto) throws Exception {
+        return service.inserir(dto, null); 
     }
 
     @Operation(summary = "Editar Veículo", description = "Edita os dados de um veículo.")
