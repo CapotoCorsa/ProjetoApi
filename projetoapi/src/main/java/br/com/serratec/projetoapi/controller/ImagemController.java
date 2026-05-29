@@ -22,7 +22,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/imagens")
-@Tag(name = "Imagens", description = "Endpoints para gerenciamento das fotos dos veículos")
+@Tag(name = "Imagens", description = "Endpoints para gerenciamento das imagens dos veículos")
 public class ImagemController {
 
     @Autowired

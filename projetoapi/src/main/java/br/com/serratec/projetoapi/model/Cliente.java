@@ -8,7 +8,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.CascadeType;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -34,12 +36,13 @@ public class Cliente {
     @Email(message = "E-mail precisa ser válido.")
     @Size(max = 150, message = "E-mail muito grande.")
     private String email;
-    
+
     @NotBlank(message = "CEP é obrigatório.")
     @Column(name = "cep_cliente")
     private String cep;
 
-    @OneToOne()
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id_endereco")
     private Endereco endereco;
 
     public Long getId() {
@@ -100,6 +103,6 @@ public class Cliente {
 
     public ClienteResponseDTO getDto() {
         return new ClienteResponseDTO(id, nome, telefone, email);
-    }    
+    }
 
 }
