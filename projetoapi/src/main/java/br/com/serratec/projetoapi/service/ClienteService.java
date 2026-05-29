@@ -26,13 +26,17 @@ public class ClienteService {
     private MailConfig mailConfig;
 
     public Boolean buscar(Long id) {
-        Boolean resultado= repository.existsById(id);
+        Boolean resultado = repository.existsById(id);
         return resultado;
     }
 
     public ClienteResponseDTO inserir(ClienteRequestDTO dto) {
+        if (dto.cep() == null || dto.cep().isBlank()) {
+            throw new ClienteException("CEP não informado.");
+        }
         ViaCepResponseDTO viaCep = viaCepService.buscarCep(dto.cep());
         Endereco endereco = new Endereco();
+        endereco.setCep(dto.cep());
         endereco.setLogradouro(viaCep.logradouro());
         endereco.setBairro(viaCep.bairro());
         endereco.setLocalidade(viaCep.localidade());
@@ -50,24 +54,27 @@ public class ClienteService {
         mailConfig.sendEmail(
                 salvo.getEmail(),
                 "Cadastro realizado",
-                "Cliente cadastrado com sucesso!"
-        );
+                "Cliente cadastrado com sucesso!");
 
         return new ClienteResponseDTO(salvo.getId(), salvo.getNome(), salvo.getTelefone(), salvo.getEmail());
     }
 
- public ClienteResponseDTO editar(Long id, ClienteRequestDTO dto) {
+    public ClienteResponseDTO editar(Long id, ClienteRequestDTO dto) {
         Cliente editado = repository
-                               .findById(id)
-                               .orElseThrow(()-> new ClienteException("Cliente não encontrado."));
+                .findById(id)
+                .orElseThrow(() -> new ClienteException("Cliente não encontrado."));
 
+        if (dto.cep() == null || dto.cep().isBlank()) {
+            throw new ClienteException("CEP não informado.");
+        }
         ViaCepResponseDTO viaCep = viaCepService.buscarCep(dto.cep());
         Endereco endereco = new Endereco();
+        endereco.setCep(dto.cep());
         endereco.setLogradouro(viaCep.logradouro());
         endereco.setBairro(viaCep.bairro());
         endereco.setLocalidade(viaCep.localidade());
         endereco.setUf(viaCep.uf());
-        
+
         editado.setNome(dto.nome());
         editado.setTelefone(dto.telefone());
         editado.setCpf(dto.cpf());
@@ -79,22 +86,19 @@ public class ClienteService {
         mailConfig.sendEmail(
                 editado.getEmail(),
                 "Cadastro editado",
-                "Cliente editado com sucesso!"
-        );
+                "Cliente editado com sucesso!");
 
         return new ClienteResponseDTO(editado.getId(), editado.getNome(), editado.getTelefone(), editado.getEmail());
     }
 
     public Page<ClienteResponseDTO> listar(Pageable pageable) {
         return repository
-               .findAll(pageable)
-               .map(cliente-> new ClienteResponseDTO (
-                        cliente.getId(), 
-                        cliente.getNome(), 
+                .findAll(pageable)
+                .map(cliente -> new ClienteResponseDTO(
+                        cliente.getId(),
+                        cliente.getNome(),
                         cliente.getTelefone(),
-                        cliente.getEmail()
-                    )
-                );
+                        cliente.getEmail()));
     }
 
 }

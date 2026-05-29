@@ -23,10 +23,12 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/ordens-de-servico")
+@Tag(name = "Ordens de Serviço", description = "Endpoints para gerenciamento das ordens de serviço")
 public class OrdemServicoController {
     @Autowired
     private OrdemServicoService service;

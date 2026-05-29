@@ -15,6 +15,7 @@ public class ViaCepService {
     private EnderecoRepository repository;
 
     public ViaCepResponseDTO buscarCep(String cep) {
+        cep = cep.replaceAll("[^0-9]", "");
         Endereco enderecoBanco = repository.findByCep(cep);
 
         if (enderecoBanco != null) {
@@ -23,13 +24,14 @@ public class ViaCepService {
             RestTemplate restTemplate = new RestTemplate();
             String url = "https://viacep.com.br/ws/" + cep + "/json";
             Endereco enderecoViaCep = restTemplate.getForObject(url, Endereco.class);
-            if (enderecoViaCep != null) {
-                enderecoViaCep.setCep(enderecoViaCep.getCep().replaceAll("-", ""));
-                return inserir(enderecoViaCep);
+            if (enderecoViaCep == null || enderecoViaCep.getCep() == null) {
+                throw new ViaCepException("CEP não encontrado!");
             }
-            else {
-                throw new ViaCepException("Cep não encontrado!");
-            }
+
+            enderecoViaCep.setCep(
+                    enderecoViaCep.getCep().replaceAll("-", ""));
+
+            return inserir(enderecoViaCep);
         }
     }
 

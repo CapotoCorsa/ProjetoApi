@@ -20,12 +20,15 @@ import io.swagger.v3.oas.annotations.media.Content; // Alteração: Import do Sw
 import io.swagger.v3.oas.annotations.media.Schema; // Alteração: Import do Swagger
 import io.swagger.v3.oas.annotations.responses.ApiResponse; // Alteração: Import do Swagger
 import io.swagger.v3.oas.annotations.responses.ApiResponses; // Alteração: Import do Swagger
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.web.bind.annotation.RequestBody;
 
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/servicos")
+@Tag(name = "Serviços", description = "Endpoints para gerenciamento dos serviços")
 public class ServicoController {
     @Autowired
     private ServicoService service;
