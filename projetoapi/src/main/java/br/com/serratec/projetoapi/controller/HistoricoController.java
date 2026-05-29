@@ -3,9 +3,12 @@ package br.com.serratec.projetoapi.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import br.com.serratec.projetoapi.dto.HistoricoRequestDTO;
+import br.com.serratec.projetoapi.dto.HistoricoResponseDTO;
 import br.com.serratec.projetoapi.model.Historico;
 import br.com.serratec.projetoapi.model.Imagem;
 import br.com.serratec.projetoapi.service.HistoricoService;
@@ -14,13 +17,14 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/historicos")
 public class HistoricoController {
 
     @Autowired
-    private HistoricoService historicoService;
+    private HistoricoService service;
 
     @Operation(summary = "Inserir Histórico", description = "Insere um histórico.")
     @ApiResponses(value = { 
@@ -32,13 +36,10 @@ public class HistoricoController {
             @ApiResponse(responseCode = "404", description = "Veículo não encontrado"),
             @ApiResponse(responseCode = "505", description = "Exceção interna da aplicação") 
     })
-    @PostMapping("/veiculo/{veiculoId}")
-    public ResponseEntity<Historico> cadastrar(@PathVariable Long veiculoId, @RequestBody Historico historico) {
-        Historico salvo = historicoService.salvar(veiculoId, historico);
-        if (salvo != null) {
-            return ResponseEntity.ok(salvo);
-        }
-        return ResponseEntity.notFound().build();
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public HistoricoResponseDTO cadastrar(@Valid @RequestBody HistoricoRequestDTO dto) {
+        return service.salvar(dto);
     }
 
     @Operation(summary = "Listar Históricos", description = "Lista todos os históricos.")
@@ -51,10 +52,9 @@ public class HistoricoController {
             @ApiResponse(responseCode = "404", description = "Veículo não encontrado"),
             @ApiResponse(responseCode = "505", description = "Exceção interna da aplicação") 
     })
-    @GetMapping("/veiculo/{veiculoId}")
-    public ResponseEntity<Page<Historico>> listar(@PathVariable Long veiculoId, Pageable pageable) {
-        Page<Historico> lista = historicoService.buscarPorVeiculo(veiculoId, pageable);
-        return ResponseEntity.ok(lista);
+    @GetMapping("/veiculo/{id}")
+    public Page<Historico> listar(@PathVariable Long id, Pageable pageable) {
+        return service.buscarPorVeiculo(id, pageable);
     }
 
     @Operation(summary = "Alterar Histórico", description = "Altera os dados de um histórico.")
@@ -68,10 +68,9 @@ public class HistoricoController {
             @ApiResponse(responseCode = "505", description = "Exceção interna da aplicação") 
     })
     @PutMapping("/{id}")
-    public ResponseEntity<Historico> atualizar(@PathVariable Long id, @RequestBody Historico historico) {
-        Historico atualizado = historicoService.alterar(id, historico);
-        if (atualizado != null) {
-            return ResponseEntity.ok(atualizado);
+    public ResponseEntity<HistoricoResponseDTO> atualizar(@PathVariable Long id, @Valid @RequestBody HistoricoRequestDTO dto) {
+        if (service.buscarPorId(id)) {
+            return ResponseEntity.ok(service.alterar(id, dto));
         }
         return ResponseEntity.notFound().build();
     }
@@ -88,7 +87,7 @@ public class HistoricoController {
     })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> excluir(@PathVariable Long id) {
-        boolean deletado = historicoService.deletar(id);
+        boolean deletado = service.deletar(id);
         if (deletado) {
             return ResponseEntity.noContent().build();
         }

@@ -39,7 +39,7 @@ public class Cliente {
     @Column(name = "cep_cliente")
     private String cep;
 
-    @OneToOne
+    @OneToOne()
     private Endereco endereco;
 
     public Long getId() {

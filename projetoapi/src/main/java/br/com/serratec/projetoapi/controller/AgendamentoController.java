@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.serratec.projetoapi.dto.AgendamentoRequestDTO;
+import br.com.serratec.projetoapi.dto.AgendamentoResponseDTO;
 import br.com.serratec.projetoapi.model.Agendamento;
 import br.com.serratec.projetoapi.model.Imagem;
 import br.com.serratec.projetoapi.service.AgendamentoService;
@@ -44,29 +46,42 @@ public class AgendamentoController {
     })
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Agendamento inserir(@Valid @RequestBody Agendamento agendamento) {
-        return service.agendar(agendamento);
+    public AgendamentoResponseDTO inserir(@Valid @RequestBody AgendamentoRequestDTO dto) {
+        return service.agendar(dto);
     }
 
-    @Operation(summary = "Alterar agendamento", description = "Altera os dados de um agendamento.")
+    @Operation(summary = "Cancelar agendamento", description = "Cancela um agendamento.")
     @ApiResponses(value = { 
             @ApiResponse(responseCode = "201", 
             content = {@Content(schema = @Schema(implementation = Imagem.class), mediaType = "application/json")},
-            description = "Altera os dados de um agendamento."),
+            description = "Cancela um agendamento."),
             @ApiResponse(responseCode = "401", description = "Erro de autenticação"),
             @ApiResponse(responseCode = "403", description = "Não há permissão para acessar o recurso"),
             @ApiResponse(responseCode = "404", description = "Veículo não encontrado"),
             @ApiResponse(responseCode = "505", description = "Exceção interna da aplicação") 
     })
-    @PutMapping("{id}")
-    public ResponseEntity<Agendamento> editar(@Valid @RequestBody Agendamento agendamento, @PathVariable Long id) {
+    @PutMapping("/{id}/cancelar")
+    public ResponseEntity<AgendamentoResponseDTO> cancelar(@PathVariable Long id) {
         if(service.buscar(id)) {
-            if(agendamento.getStatus().name()== "CONCLUIDO") {
-                agendamento.setId(id);
-                return ResponseEntity.ok(service.concluir(agendamento));
-            }
-            agendamento.setId(id);
-            return ResponseEntity.ok(service.cancelar(agendamento));
+            return ResponseEntity.ok(service.cancelar(id));
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @Operation(summary = "Concluir agendamento", description = "Conclui um agendamento.")
+    @ApiResponses(value = { 
+            @ApiResponse(responseCode = "201", 
+            content = {@Content(schema = @Schema(implementation = Imagem.class), mediaType = "application/json")},
+            description = "Conclui um agendamento."),
+            @ApiResponse(responseCode = "401", description = "Erro de autenticação"),
+            @ApiResponse(responseCode = "403", description = "Não há permissão para acessar o recurso"),
+            @ApiResponse(responseCode = "404", description = "Veículo não encontrado"),
+            @ApiResponse(responseCode = "505", description = "Exceção interna da aplicação") 
+    })
+    @PutMapping("/{id}/concluir")
+    public ResponseEntity<AgendamentoResponseDTO> editar(@PathVariable Long id) {
+        if(service.buscar(id)) {
+            return ResponseEntity.ok(service.cancelar(id));
         }
         return ResponseEntity.notFound().build();
     }

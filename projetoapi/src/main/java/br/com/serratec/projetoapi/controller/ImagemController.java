@@ -39,6 +39,7 @@ public class ImagemController {
             @ApiResponse(responseCode = "505", description = "Exceção interna da aplicação") 
     })
     @PostMapping(value = "/veiculo/{idVeiculo}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Imagem> inserir(@PathVariable Long idVeiculo, @RequestParam MultipartFile file) throws IOException {
         Veiculo veiculo = new Veiculo();
         veiculo.setId(idVeiculo);

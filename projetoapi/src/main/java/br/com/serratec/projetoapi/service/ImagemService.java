@@ -1,6 +1,7 @@
 package br.com.serratec.projetoapi.service;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,10 +28,9 @@ public class ImagemService {
                 .orElseThrow(() -> new ImagemException("Imagem não encontrada com o ID: " + id));
     }
 
-    public Imagem buscarPorVeiculo(Veiculo veiculo) {
-        return repository.findByVeiculo(veiculo)
-                .orElseThrow(() -> new ImagemException("Nenhuma imagem encontrada para o veículo informado."));
-    }
+    public List<Imagem> buscarPorVeiculo(Veiculo veiculo) {
+    return repository.findByVeiculo(veiculo);
+}
 
     public Imagem alterar(Long id, MultipartFile file) throws IOException {
         Imagem imagemExistente = repository.findById(id)
