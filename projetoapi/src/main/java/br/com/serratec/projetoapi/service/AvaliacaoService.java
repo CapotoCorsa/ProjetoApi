@@ -6,8 +6,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.serratec.projetoapi.dto.AvaliacaoRequestDTO;
+import br.com.serratec.projetoapi.dto.AvaliacaoResponseDTO;
+import br.com.serratec.projetoapi.exception.OrdemServicoException;
 import br.com.serratec.projetoapi.model.Avaliacao;
+import br.com.serratec.projetoapi.model.OrdemServico;
 import br.com.serratec.projetoapi.repository.AvaliacaoRepository;
+import br.com.serratec.projetoapi.repository.OrdemServicoRepository;
 
 @Service
 public class AvaliacaoService {
@@ -15,9 +20,30 @@ public class AvaliacaoService {
     @Autowired
     private AvaliacaoRepository repository;
 
-    public Avaliacao criar(Avaliacao avaliacao) {
+    @Autowired
+    private OrdemServicoRepository ordemServicoRepository;
+
+    public AvaliacaoResponseDTO criar(AvaliacaoRequestDTO dto) {
+
+        OrdemServico ordemServico = ordemServicoRepository
+                .findById(dto.ordemServicoId())
+                .orElseThrow(() -> new OrdemServicoException("Ordem de serviço não encontrada."));
+
+        Avaliacao avaliacao = new Avaliacao();
+        avaliacao.setOrdemServico(ordemServico);
+        avaliacao.setNota(dto.nota());
+        avaliacao.setComentario(dto.comentario());
         avaliacao.setData(LocalDate.now());
-        return repository.save(avaliacao);
+
+        repository.save(avaliacao);
+
+        return new AvaliacaoResponseDTO(
+                avaliacao.getId(),
+                avaliacao.getNota(),
+                avaliacao.getComentario(),
+                avaliacao.getData(),
+                ordemServico.getId()
+        );
     }
 
     public List<Avaliacao> listar() {
@@ -26,16 +52,7 @@ public class AvaliacaoService {
 
     public Avaliacao buscarPorId(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Avaliação não encontrada"));
-    }
-
-    public Avaliacao atualizar(Long id, Avaliacao nova) {
-        Avaliacao existente = buscarPorId(id);
-
-        existente.setNota(nova.getNota());
-        existente.setComentario(nova.getComentario());
-
-        return repository.save(existente);
+                .orElseThrow(() -> new RuntimeException("Avaliação não encontrada."));
     }
 
     public void deletar(Long id) {

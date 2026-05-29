@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import br.com.serratec.projetoapi.dto.AvaliacaoRequestDTO;
+import br.com.serratec.projetoapi.dto.AvaliacaoResponseDTO;
 import br.com.serratec.projetoapi.model.Avaliacao;
 import br.com.serratec.projetoapi.service.AvaliacaoService;
 
@@ -16,8 +18,8 @@ public class AvaliacaoController {
     private AvaliacaoService service;
 
     @PostMapping
-    public Avaliacao criar(@RequestBody Avaliacao avaliacao) {
-        return service.criar(avaliacao);
+    public AvaliacaoResponseDTO criar(@RequestBody AvaliacaoRequestDTO dto) {
+        return service.criar(dto);
     }
 
     @GetMapping
@@ -28,11 +30,6 @@ public class AvaliacaoController {
     @GetMapping("/{id}")
     public Avaliacao buscar(@PathVariable Long id) {
         return service.buscarPorId(id);
-    }
-
-    @PutMapping("/{id}")
-    public Avaliacao atualizar(@PathVariable Long id, @RequestBody Avaliacao avaliacao) {
-        return service.atualizar(id, avaliacao);
     }
 
     @DeleteMapping("/{id}")
