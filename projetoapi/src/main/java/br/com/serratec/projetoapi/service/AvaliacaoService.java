@@ -56,6 +56,6 @@ public class AvaliacaoService {
     }
 
     public void deletar(Long id) {
-        repository.deleteById(id);
+        repository.deleteById(id); 
     }
 }
