@@ -28,11 +28,11 @@ public class Avaliacao {
     @NotNull(message = "Preencha a data.")
     @PastOrPresent(message = "A data não pode ser futura.")
     private LocalDate data;
-
+    
     @NotNull(message= "Preencha o ID da ordem de serviço.")
     @ManyToOne
-    @JoinColumn(name = "id_ordem_servico")
-    private OrdemServico ordemServico;
+    @JoinColumn(name = "id_ordem")
+    private OrdemServico ordem;
 
     public Long getId() {
         return id;
@@ -66,12 +66,12 @@ public class Avaliacao {
         this.data = data;
     }
 
-    public OrdemServico getOrdemServico() {
-        return ordemServico;
+    public OrdemServico getOrdem() {
+        return ordem;
     }
 
-    public void setOrdemServico(OrdemServico ordemServico) {
-        this.ordemServico = ordemServico;
+    public void setOrdem(OrdemServico ordem) {
+        this.ordem = ordem;
     }
 
     

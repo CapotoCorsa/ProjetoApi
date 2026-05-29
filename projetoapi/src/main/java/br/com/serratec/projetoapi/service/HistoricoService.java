@@ -39,8 +39,19 @@ public class HistoricoService {
         return new HistoricoResponseDTO(historico.getId(), dto.dataManutencao(), dto.descricao(), dto.valorCobrado(), veiculo.getId());
     }
 
-    public Page<Historico> buscarPorVeiculo(Long veiculoId, Pageable pageable) {
-        return repository.findByVeiculoId(veiculoId, pageable);
+    //esses dois métodos estão colados para indicar que são "a mesma coisa"
+    public Page<HistoricoResponseDTO> buscarPorVeiculo(Long veiculoId, Pageable pageable) {
+        return repository.findByVeiculoId(veiculoId, pageable)
+                .map(this::toDTO);
+    }
+    private HistoricoResponseDTO toDTO(Historico historico) {
+        return new HistoricoResponseDTO(
+                historico.getId(),
+                historico.getDataManutencao(),
+                historico.getDescricao(),
+                historico.getValorCobrado(),
+                historico.getVeiculo().getId()
+        );
     }
 
     public Boolean buscarPorId(Long id) {

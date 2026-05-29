@@ -6,7 +6,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.serratec.projetoapi.dto.OrdemServicoRequestDTO;
+import br.com.serratec.projetoapi.enums.StatusOrdem;
 import br.com.serratec.projetoapi.dto.OrdemServicoResponseDTO;
+import br.com.serratec.projetoapi.exception.EnumException;
 import br.com.serratec.projetoapi.exception.OrdemServicoException;
 import br.com.serratec.projetoapi.exception.VeiculoException;
 import br.com.serratec.projetoapi.model.OrdemServico;
@@ -27,21 +29,21 @@ public class OrdemServicoService {
 
     public OrdemServicoResponseDTO inserir(OrdemServicoRequestDTO dto) {
         Veiculo veiculo= veiculoRepository
-                            .findById(dto.getIdVeiculo())
+                            .findById(dto.idVeiculo())
                             .orElseThrow(()-> new VeiculoException("Veículo não encontrado."));
         
         OrdemServico salvo= new OrdemServico();
         salvo.setVeiculo(veiculo);
-        salvo.setStatus(dto.getStatusOrdem());
+        salvo.setStatus(setStatus(dto.statusOrdem()));
         salvo.calcularTotalGeral();
         repository.save(salvo);
 
-        return new OrdemServicoResponseDTO(salvo.getId(), salvo.getVeiculo().getId(), salvo.getStatus().name());
+        return new OrdemServicoResponseDTO(salvo.getId(), salvo.getVeiculo().getId(), salvo.getStatus().name(), salvo.getTotalGeral());
     }
 
     public OrdemServicoResponseDTO editar(OrdemServicoRequestDTO dto, Long id) {
         Veiculo veiculo= veiculoRepository
-                         .findById(dto.getIdVeiculo())
+                         .findById(dto.idVeiculo())
                          .orElseThrow(()-> new VeiculoException("Veículo não encontrado ou inválido."));
         
         OrdemServico editado= repository
@@ -49,12 +51,12 @@ public class OrdemServicoService {
                             .orElseThrow(()-> new OrdemServicoException("Ordem de Serviço não encontrada ou inválida."));
             
         editado.setVeiculo(veiculo);
-        editado.setStatus(dto.getStatusOrdem());
+        editado.setStatus(setStatus(dto.statusOrdem()));
         editado.calcularTotalGeral();
         repository.save(editado);
 
         notificacaoService.notificar(editado.getVeiculo().getCliente().getEmail(), editado.getStatus().name());
-        return new OrdemServicoResponseDTO(editado.getId(), editado.getVeiculo().getId(), editado.getStatus().name());
+        return new OrdemServicoResponseDTO(editado.getId(), editado.getVeiculo().getId(), editado.getStatus().name(), editado.getTotalGeral());
     }
 
     public Boolean buscar(Long id) {
@@ -68,8 +70,18 @@ public class OrdemServicoService {
                .map(ordem-> new OrdemServicoResponseDTO (
                         ordem.getId(), 
                         ordem.getVeiculo().getId(), 
-                        ordem.getStatus().name()
+                        ordem.getStatus().name(),
+                        ordem.getTotalGeral()
                     )
                 );
     }
+
+    private StatusOrdem setStatus(String nome) {
+        for(StatusOrdem status: StatusOrdem.values()) {
+            if(status.name().equals(nome))
+                return status;
+        }
+        throw new EnumException("Status inválido.");
+    };
+
 }

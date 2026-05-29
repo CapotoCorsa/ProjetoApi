@@ -49,7 +49,7 @@ public class CheckoutService {
         ordem.calcularTotalGeral();
         ordemRepository.save(ordem);
 
-        return new CheckoutResponseDTO(salvo.getId(), dto.ordemId(), dto.servicoId(), dto.quantidade(), dto.desconto()); 
+        return new CheckoutResponseDTO(salvo.getId(), dto.ordemId(), dto.servicoId(), dto.quantidade(), dto.desconto(), salvo.getSubtotal()); 
     }
 
     public CheckoutResponseDTO editar(CheckoutRequestDTO dto, Long id) {
@@ -75,7 +75,7 @@ public class CheckoutService {
         ordem.calcularTotalGeral();
         ordemRepository.save(ordem);
 
-        return new CheckoutResponseDTO(editado.getId(), dto.ordemId(), dto.servicoId(), dto.quantidade(), dto.desconto());
+        return new CheckoutResponseDTO(editado.getId(), dto.ordemId(), dto.servicoId(), dto.quantidade(), dto.desconto(), editado.getSubtotal());
     }
 
     public Boolean buscar(Long id) {
@@ -91,7 +91,8 @@ public class CheckoutService {
                         checkout.getOrdem().getId(), 
                         checkout.getServico().getId(),
                         checkout.getQuantidade(),
-                        checkout.getDesconto()
+                        checkout.getDesconto(),
+                        checkout.getSubtotal()
                     )
                 );
     }
