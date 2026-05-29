@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -101,6 +102,25 @@ public class AgendamentoController {
     @GetMapping
     public ResponseEntity<List<AgendamentoResponseDTO>> listar(@RequestParam LocalDate data) {
         return ResponseEntity.ok(service.listarPorData(data));
+    }
+
+    @Operation(summary = "Apagar Agendamento", description = "Apaga os dados de um agendamento.")
+    @ApiResponses(value = { 
+            @ApiResponse(responseCode = "201", 
+            content = {@Content(schema = @Schema(implementation = Imagem.class), mediaType = "application/json")},
+            description = "Apaga os dados de um agendamento."),
+            @ApiResponse(responseCode = "401", description = "Erro de autenticação"),
+            @ApiResponse(responseCode = "403", description = "Não há permissão para acessar o recurso"),
+            @ApiResponse(responseCode = "404", description = "Veículo não encontrado"),
+            @ApiResponse(responseCode = "505", description = "Exceção interna da aplicação") 
+    })
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> apagar(@PathVariable Long id) {
+        if (service.buscar(id)) {
+            service.apagar(id);
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 
 }
