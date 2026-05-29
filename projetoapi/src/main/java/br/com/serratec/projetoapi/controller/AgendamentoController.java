@@ -83,7 +83,7 @@ public class AgendamentoController {
     @PutMapping("/{id}/concluir")
     public ResponseEntity<AgendamentoResponseDTO> editar(@PathVariable Long id) {
         if(service.buscar(id)) {
-            return ResponseEntity.ok(service.cancelar(id));
+            return ResponseEntity.ok(service.concluir(id));
         }
         return ResponseEntity.notFound().build();
     }
@@ -99,7 +99,7 @@ public class AgendamentoController {
             @ApiResponse(responseCode = "505", description = "Exceção interna da aplicação") 
     })
     @GetMapping
-    public ResponseEntity<List<Agendamento>> listar(@RequestParam LocalDate data) {
+    public ResponseEntity<List<AgendamentoResponseDTO>> listar(@RequestParam LocalDate data) {
         return ResponseEntity.ok(service.listarPorData(data));
     }
 

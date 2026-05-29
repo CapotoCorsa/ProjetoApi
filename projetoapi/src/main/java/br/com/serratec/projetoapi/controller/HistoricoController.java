@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 
 import br.com.serratec.projetoapi.dto.HistoricoRequestDTO;
 import br.com.serratec.projetoapi.dto.HistoricoResponseDTO;
-import br.com.serratec.projetoapi.model.Historico;
 import br.com.serratec.projetoapi.model.Imagem;
 import br.com.serratec.projetoapi.service.HistoricoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -55,7 +54,7 @@ public class HistoricoController {
             @ApiResponse(responseCode = "505", description = "Exceção interna da aplicação") 
     })
     @GetMapping("/veiculo/{id}")
-    public Page<Historico> listar(@PathVariable Long id, Pageable pageable) {
+    public Page<HistoricoResponseDTO> listar(@PathVariable Long id, Pageable pageable) {
         return service.buscarPorVeiculo(id, pageable);
     }
 

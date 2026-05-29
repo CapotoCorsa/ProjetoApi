@@ -19,10 +19,10 @@ public class Avaliacao {
     @NotNull(message= "Preencha a nota.")
     private LocalDate data;
     
-    @NotNull(message= "Preencha o ID do cliente.")
+    @NotNull(message= "Preencha o ID da ordem de serviço.")
     @ManyToOne
-    @JoinColumn(name = "id_cliente")
-    private Cliente cliente;
+    @JoinColumn(name = "id_ordem")
+    private OrdemServico ordem;
 
     public Long getId() {
         return id;
@@ -56,11 +56,11 @@ public class Avaliacao {
         this.data = data;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public OrdemServico getOrdem() {
+        return ordem;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setOrdem(OrdemServico ordem) {
+        this.ordem = ordem;
     }
 }

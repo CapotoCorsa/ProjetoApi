@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 
 import br.com.serratec.projetoapi.dto.AvaliacaoRequestDTO;
 import br.com.serratec.projetoapi.dto.AvaliacaoResponseDTO;
-import br.com.serratec.projetoapi.model.Avaliacao;
 import br.com.serratec.projetoapi.model.Imagem;
 import br.com.serratec.projetoapi.service.AvaliacaoService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -54,7 +53,7 @@ public class AvaliacaoController {
             @ApiResponse(responseCode = "505", description = "Exceção interna da aplicação") 
     })
     @GetMapping
-    public List<Avaliacao> listar() {
+    public List<AvaliacaoResponseDTO> listar() {
         return service.listar();
     }
 
@@ -69,7 +68,7 @@ public class AvaliacaoController {
             @ApiResponse(responseCode = "505", description = "Exceção interna da aplicação") 
     })
     @GetMapping("/{id}")
-    public Avaliacao buscar(@PathVariable Long id) {
+    public AvaliacaoResponseDTO buscar(@PathVariable Long id) {
         return service.buscarPorId(id);
     }
 

@@ -6,16 +6,15 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.serratec.projetoapi.dto.AgendamentoResponseDTO;
-import br.com.serratec.projetoapi.dto.VeiculoResponseDTO;
 import br.com.serratec.projetoapi.dto.AgendamentoRequestDTO;
+import br.com.serratec.projetoapi.dto.AgendamentoResponseDTO;
 import br.com.serratec.projetoapi.enums.StatusAgendamento;
 import br.com.serratec.projetoapi.exception.AgendamentoException;
 import br.com.serratec.projetoapi.exception.ServicoException;
 import br.com.serratec.projetoapi.exception.VeiculoException;
 import br.com.serratec.projetoapi.model.Agendamento;
-import br.com.serratec.projetoapi.model.Veiculo;
 import br.com.serratec.projetoapi.model.Servico;
+import br.com.serratec.projetoapi.model.Veiculo;
 import br.com.serratec.projetoapi.repository.AgendamentoRepository;
 import br.com.serratec.projetoapi.repository.ServicoRepository;
 import br.com.serratec.projetoapi.repository.VeiculoRepository;
@@ -94,8 +93,18 @@ public class AgendamentoService {
         return new AgendamentoResponseDTO(agendamento.getId(), agendamento.getData(), agendamento.getHora(), agendamento.getStatus().name(), agendamento.getVeiculo().getId(), agendamento.getServico().getId());
     }
 
-    public List<Agendamento> listarPorData(LocalDate data) {
-        return repository.findByData(data);
+    public List<AgendamentoResponseDTO> listarPorData(LocalDate data) {
+        return repository.findByData(data)
+                .stream()
+                .map(agendamento-> new AgendamentoResponseDTO(
+                        agendamento.getId(),
+                        agendamento.getData(),
+                        agendamento.getHora(),
+                        agendamento.getStatus().name(),
+                        agendamento.getVeiculo().getId(),
+                        agendamento.getServico().getId()
+                ))
+                .toList();
     }
 
     public Boolean buscar(Long id) {

@@ -6,5 +6,5 @@ public record AvaliacaoRequestDTO(
     Integer nota,
     String comentario,
     LocalDate data,
-    Long clienteId
+    Long ordemId
 ) {}
